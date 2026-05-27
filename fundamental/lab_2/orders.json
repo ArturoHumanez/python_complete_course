@@ -1,0 +1,17 @@
+[
+    {"id": 1, "customer": "Juan", "status": "completed", "items": [
+        {"product": "Laptop", "price": 25000, "quantity": 1},
+        {"product": "Mouse", "price": 350, "quantity": 2}
+    ]},
+    {"id": 2, "customer": "María", "status": "pending", "items": [
+        {"product": "Teclado", "price": 800, "quantity": 1}
+    ]},
+    {"id": 3, "customer": "Juan", "status": "completed", "items": [
+        {"product": "Monitor", "price": 8500, "quantity": 1}
+    ]},
+    {"id": 4, "customer": "Ana", "status": "cancelled", "items": []},
+    {"id": 5, "customer": "María", "status": "completed", "items": [
+        {"product": "Webcam", "price": 1200, "quantity": 1},
+        {"product": "Audífonos", "price": "no_disponible", "quantity": 1}
+    ]}
+]
