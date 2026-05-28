@@ -1,11 +1,12 @@
-import time
 import functools
 import random
+import time
 from contextlib import contextmanager
 
 
 def retry(max_attempts=3, initial_delay=1.0, backoff_factor=2.0):
     """Decorador que reintenta una función si lanza excepción."""
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -23,8 +24,11 @@ def retry(max_attempts=3, initial_delay=1.0, backoff_factor=2.0):
                     )
                     time.sleep(delay)
                     delay *= backoff_factor
+
         return wrapper
+
     return decorator
+
 
 @retry(max_attempts=6, initial_delay=0.5)
 def call_unreliable_api():
@@ -32,6 +36,7 @@ def call_unreliable_api():
     if random.random() < 0.5:
         raise ConnectionError("Servidor no disponible")
     return {"status": "ok", "data": [1, 2, 3]}
+
 
 @retry(max_attempts=3, initial_delay=0.5)
 def send_to_api(orders_batch):
@@ -51,11 +56,13 @@ def timer(label="Operación"):
     elapsed = time.time() - start
     print(f"⏱ {label} — terminó en {elapsed:.2f}s")
 
+
 def batch(items, size):
     """Generador que entrega items en lotes."""
     for i in range(0, len(items), size):
         yield items[i : i + size]
-        
+
+
 if __name__ == "__main__":
     print("=== Probando decorador de reintentos ===")
     try:
@@ -63,8 +70,7 @@ if __name__ == "__main__":
         print(f"  ✓ Éxito: {result}")
     except ConnectionError:
         print("  ✗ La API no respondió después de todos los intentos")
-        
-        
+
     # Context manager + generador + decorador juntos
     print("\n=== Probando context manager + generador ===")
     orders = list(range(1, 21))
@@ -73,11 +79,11 @@ if __name__ == "__main__":
         for group in batch(orders, 5):
             print(f"  Procesando lote: {group}")
             time.sleep(0.3)
-            
+
     # Ejemplo integrador
     print("\n=== Combinando todo ===")
     orders = [{"id": i, "total": i * 100} for i in range(1, 16)]
-    
+
     with timer("Envío de órdenes a API"):
         for group in batch(orders, 4):
             ids = [o["id"] for o in group]

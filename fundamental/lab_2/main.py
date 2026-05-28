@@ -21,6 +21,7 @@ def load_orders(filepath: str) -> list[dict]:
 
     return data
 
+
 def calculate_order_total(order: dict) -> float:
     """Calcula el total de una orden, manejando datos inválidos."""
     total = 0.0
@@ -65,20 +66,20 @@ def process_order(order: dict) -> str:
             return f"Orden {order['id']}: cancelada (sin productos)"
         case _:
             return f"Orden {order['id']}: caso no contemplado"
-        
-        
+
+
 if __name__ == "__main__":
     # Caso bien
     orders = load_orders("fundamental/lab_2/orders.json")
-    
+
     # Caso archivo no existe
-    #orders = load_orders("fundamental/lab_2/orders2.json")
+    # orders = load_orders("fundamental/lab_2/orders2.json")
     print(f"Se cargaron {len(orders)} órdenes")
-    
+
     # Filtrar solo las completadas
     completed = filter_orders_by_status(orders, "completed")
     print(f"Órdenes completadas: {len(completed)}")
-    
+
     for order in completed:
         total = calculate_order_total(order)
         print(f"  Orden {order['id']} — {order['customer']}: ${total:,.2f}")
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     # Usar un set para ver clientes únicos de TODAS las órdenes
     all_customers = {order.get("customer", "?") for order in orders}
     print(f"\nClientes únicos en total: {all_customers}")
-    
+
     # Pattern matching
     print("\nClasificación de órdenes:")
     for order in orders:
