@@ -1,0 +1,9 @@
+id,customer,product,price,quantity,status,date
+1,Juan,Laptop,25000,1,completed,2026-01-15
+2,María,Mouse,350,2,completed,2026-01-16
+3,Juan,Monitor,8500,1,completed,2026-02-01
+4,Ana,Teclado,800,1,cancelled,2026-02-10
+5,María,Webcam,1200,1,completed,2026-02-15
+6,Juan,Cable HDMI,150,3,completed,2026-03-01
+7,Ana,Laptop,25000,1,pending,2026-03-05
+8,Pedro,Mouse,350,1,completed,2026-03-10
