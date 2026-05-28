@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
+
 from pydantic import BaseModel, Field, field_validator
 
-
 # === Entidades de dominio (dataclasses) ===
+
 
 @dataclass
 class OrderItem:
@@ -15,7 +16,7 @@ class OrderItem:
         return self.price * self.quantity
 
 
-@dataclass(order=True)
+@dataclass()
 class Order:
     id: int
     customer: str
@@ -25,19 +26,27 @@ class Order:
     def total(self) -> float:
         return sum(item.subtotal for item in self.items)
 
-
     @property
     def item_count(self) -> int:
         return sum(item.quantity for item in self.items)
-
 
     def __str__(self) -> str:
         return (
             f"Order({self.id}, {self.customer}, "
             f"{len(self.items)} items, ${self.total:,.2f})"
         )
-        
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Order):
+            return NotImplemented
+        return self.id == other.id
+
+    def __lt__(self, other: "Order") -> bool:
+        return self.total < other.total
+
+
 # === Modelos de entrada/salida (Pydantic) ===
+
 
 class OrderItemIn(BaseModel):
     product: str
@@ -64,7 +73,9 @@ class OrderOut(BaseModel):
     total: float
     item_count: int
 
+
 # === Conversión entre modelos ===
+
 
 def create_order(id: int, order_in: OrderIn) -> Order:
     """Convierte un OrderIn (Pydantic) a una entidad Order (dataclass)."""
@@ -91,10 +102,11 @@ def order_to_out(order: Order) -> OrderOut:
         total=order.total,
         item_count=order.item_count,
     )
-    
+
+
 if __name__ == "__main__":
     from pydantic import ValidationError
-    
+
     print("=== Creación de órdenes ===")
     raw_data = {
         "customer": "Juan",
@@ -103,12 +115,14 @@ if __name__ == "__main__":
             {"product": "Mouse", "price": "350", "quantity": 2},
         ],
     }
-    
+
     order_in = OrderIn(**raw_data)
     order = create_order(id=1, order_in=order_in)
-    
+
     # === price="350" se convirtió a float automáticamente ===
-    print(f"Precio del mouse: {order.items[1].price} (tipo: {type(order.items[1].price).__name__})")
+    print(
+        f"Precio del mouse: {order.items[1].price} (tipo: {type(order.items[1].price).__name__})"
+    )
 
     # === Conversión a modelo de salida ===
     print(f"\nJSON de salida:\n{order_to_out(order).model_dump_json(indent=2)}")
@@ -119,10 +133,47 @@ if __name__ == "__main__":
         {"customer": "Ana", "items": [{"product": "X", "price": -5}]},
         {"customer": "Ana", "items": []},
     ]
-    
+
     for i, bad in enumerate(bad_cases, 1):
         try:
             OrderIn(**bad)
             print(f"  Caso {i}: pasó (¿inesperado?)")
         except ValidationError as e:
             print(f"  Caso {i}: {e.error_count()} error(es) — {e.errors()[0]['msg']}")
+
+    # === Comparaciones ===
+    print("\n=== Comparaciones ===")
+    order_a = create_order(
+        1,
+        OrderIn(
+            customer="Juan",
+            items=[{"product": "Laptop", "price": 25000, "quantity": 1}],
+        ),
+    )
+    order_b = create_order(
+        2,
+        OrderIn(
+            customer="María",
+            items=[{"product": "Mouse", "price": 350, "quantity": 2}],
+        ),
+    )
+    order_c = create_order(
+        1,
+        OrderIn(
+            customer="Juan",
+            items=[{"product": "Laptop", "price": 25000, "quantity": 1}],
+        ),
+    )
+
+    print(f"  {order_a}")
+    print(f"  {order_b}")
+    print(f"  order_a == order_c (mismo id): {order_a == order_c}")
+    print(f"  order_a == order_b (distinto id): {order_a == order_b}")
+    print(f"  order_b < order_a (por total): {order_b < order_a}")
+
+    # Ordenar una lista de órdenes por total
+    orders = [order_a, order_b]
+    orders_sorted = sorted(orders)
+    print("\n  Ordenadas por total:")
+    for o in orders_sorted:
+        print(f"    {o}")
