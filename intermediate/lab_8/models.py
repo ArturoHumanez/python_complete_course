@@ -21,6 +21,7 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(100))
     email: Mapped[str] = mapped_column(String(200), unique=True)
     phone: Mapped[str | None] = mapped_column(String(20), default=None)  # ← nuevo
+    password_hash: Mapped[str | None] = mapped_column(String(200), default=None)
 
     orders: Mapped[list["Order"]] = relationship(back_populates="user")
 
