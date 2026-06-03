@@ -1,8 +1,8 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from intermediate.lab_9.database import create_tables
 from intermediate.lab_9.routers import auth, orders
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Orders API",

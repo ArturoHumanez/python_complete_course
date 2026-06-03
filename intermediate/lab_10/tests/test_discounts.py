@@ -1,4 +1,5 @@
 import pytest
+
 from intermediate.lab_10.discounts import apply_discount
 
 

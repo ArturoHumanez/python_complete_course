@@ -3,6 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from intermediate.lab_8.models import Order, OrderItem, User
+from intermediate.lab_9.auth import verify_token
 from intermediate.lab_9.database import get_db
 from intermediate.lab_9.schemas import (
     OrderCreate,
@@ -10,7 +11,6 @@ from intermediate.lab_9.schemas import (
     OrderResponse,
     OrderUpdate,
 )
-from intermediate.lab_9.auth import verify_token
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 

@@ -1,7 +1,8 @@
+import functools
 import logging
 import time
-import functools
 from pathlib import Path
+
 import httpx
 
 logging.basicConfig(
