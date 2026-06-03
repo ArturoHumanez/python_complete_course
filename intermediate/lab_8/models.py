@@ -1,10 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, String, create_engine
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
-    Session,
     mapped_column,
     relationship,
 )

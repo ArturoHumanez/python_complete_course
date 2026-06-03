@@ -48,7 +48,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         select(User).where(User.email == data.email)
     ).first()
 
-    if not user or not verify_password(data.password, user.password_hash):
+    if not user or not user.password_hash or not verify_password(data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciales incorrectas",
