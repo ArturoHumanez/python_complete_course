@@ -35,6 +35,9 @@ profile = "black"
 [tool.ruff]
 line-length = 88
 
+[tool.black]
+target-version = ["py312"]
+
 [tool.ruff.per-file-ignores]
 "intermediate/lab_8/alembic/env.py" = ["E402"]
 

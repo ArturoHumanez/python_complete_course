@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from typing import Any
+
+
 class InMemoryUnitOfWork:
     def __init__(self, repo: Any) -> None:
-        self.orders:Any  = repo
+        self.orders: Any = repo
         self._committed = False
 
     def __enter__(self) -> "InMemoryUnitOfWork":

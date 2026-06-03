@@ -14,6 +14,7 @@ test_engine = create_engine(
     connect_args={"check_same_thread": False},
 )
 
+
 @pytest.fixture(autouse=True)
 def setup_db():
     """Crea las tablas antes de cada test y las destruye después."""
@@ -51,18 +52,23 @@ def client(db):
 
 # === Helper para autenticación ===
 
+
 @pytest.fixture
 def auth_headers(client):
     """Registra un usuario y devuelve headers con token."""
-    response = client.post("/auth/register", json={
-        "email": "test@example.com",
-        "password": "test1234",
-    })
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": "test@example.com",
+            "password": "test1234",
+        },
+    )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
 
 
 # === Tests del CRUD ===
+
 
 @pytest.fixture
 def sample_order():
@@ -166,7 +172,9 @@ class TestUpdateOrder:
         assert response.json()["status"] == "completed"
 
     @pytest.mark.parametrize("bad_status", ["refunded", "shipped", ""])
-    def test_update_invalid_status(self, client, auth_headers, sample_order, bad_status):
+    def test_update_invalid_status(
+        self, client, auth_headers, sample_order, bad_status
+    ):
         create_resp = client.post("/orders/", json=sample_order, headers=auth_headers)
         order_id = create_resp.json()["id"]
 

@@ -16,6 +16,7 @@ security_scheme = HTTPBearer()
 
 # === Schemas ===
 
+
 class LoginRequest(BaseModel):
     email: str
     password: str
@@ -28,13 +29,17 @@ class TokenResponse(BaseModel):
 
 # === Funciones de password ===
 
+
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
 
 def verify_password(plain: str, hashed: str) -> bool:
     return bcrypt.checkpw(plain.encode(), hashed.encode())
 
+
 # === Funciones de JWT ===
+
 
 def create_token(user_id: int, email: str) -> str:
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -46,7 +51,9 @@ def create_token(user_id: int, email: str) -> str:
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)) -> dict:
+def verify_token(
+    credentials: HTTPAuthorizationCredentials = Depends(security_scheme),
+) -> dict:
     """Dependencia de FastAPI que verifica el token JWT."""
     try:
         payload = jwt.decode(

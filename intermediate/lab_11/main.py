@@ -11,6 +11,7 @@ URLS = [f"https://jsonplaceholder.typicode.com/posts/{i}" for i in range(1, 21)]
 
 # === 1. Versión síncrona (baseline) ===
 
+
 def fetch_sync(urls: list[str]) -> list[dict]:
     results = []
     for url in urls:
@@ -21,6 +22,7 @@ def fetch_sync(urls: list[str]) -> list[dict]:
 
 # === 2. Versión con threads ===
 
+
 def fetch_threaded(urls: list[str], workers: int = 5) -> list[dict]:
     def fetch_one(url: str) -> dict:
         return httpx.get(url, timeout=10).json()
@@ -30,6 +32,7 @@ def fetch_threaded(urls: list[str], workers: int = 5) -> list[dict]:
 
 
 # === 3. Versión async con semáforo ===
+
 
 async def fetch_async(urls: list[str], max_concurrent: int = 5) -> list[dict]:
     semaphore = asyncio.Semaphore(max_concurrent)
@@ -46,6 +49,7 @@ async def fetch_async(urls: list[str], max_concurrent: int = 5) -> list[dict]:
 
 # === 4. CPU-bound con multiprocessing ===
 
+
 def heavy_calculation(n: int) -> float:
     """Simula trabajo pesado de CPU."""
     return sum(math.sqrt(i) for i in range(n))
@@ -61,6 +65,7 @@ def run_cpu_parallel(numbers: list[int], workers: int = 4) -> list[float]:
 
 
 # === Benchmark helper ===
+
 
 def benchmark(label: str, func, *args) -> tuple:
     start = time.perf_counter()

@@ -46,10 +46,7 @@ class Order(Base):
         return sum(item.subtotal for item in self.items)
 
     def __repr__(self) -> str:
-        return (
-            f"Order(id={self.id}, user='{self.user_id}', "
-            f"status='{self.status}')"
-        )
+        return f"Order(id={self.id}, user='{self.user_id}', " f"status='{self.status}')"
 
 
 class OrderItem(Base):

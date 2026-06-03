@@ -19,6 +19,7 @@ SAMPLE_ITEMS = [
 
 # === Strategy tests ===
 
+
 class TestPricingStrategy:
     @pytest.fixture
     def order(self):
@@ -47,6 +48,7 @@ class TestPricingStrategy:
 
 
 # === Decorator tests ===
+
 
 class TestCachedRepository:
     def test_find_by_id_caches(self):
@@ -77,6 +79,7 @@ class TestCachedRepository:
 
 
 # === Adapter tests ===
+
 
 class TestExternalPricingAdapter:
     @pytest.fixture

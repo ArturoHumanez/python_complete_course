@@ -21,6 +21,7 @@ def create_tables(engine) -> None:
 
 # === CRUD Operations ===
 
+
 def create_user(session: Session, name: str, email: str) -> User:
     user = User(name=name, email=email)
     session.add(user)
@@ -29,9 +30,7 @@ def create_user(session: Session, name: str, email: str) -> User:
     return user
 
 
-def create_order(
-    session: Session, user: User, items: list[dict]
-) -> Order:
+def create_order(session: Session, user: User, items: list[dict]) -> Order:
     order = Order(
         user=user,
         status="pending",
@@ -84,17 +83,29 @@ if __name__ == "__main__":
             juan = create_user(session, "Juan", "juan@mail.com")
             maria = create_user(session, "María", "maria@mail.com")
 
-            order1 = create_order(session, juan, [
-                {"product": "Laptop", "price": 25000, "quantity": 1},
-                {"product": "Mouse", "price": 350, "quantity": 2},
-            ])
-            order2 = create_order(session, juan, [
-                {"product": "Monitor", "price": 8500, "quantity": 1},
-            ])
-            order3 = create_order(session, maria, [
-                {"product": "Teclado", "price": 800, "quantity": 1},
-                {"product": "Webcam", "price": 1200, "quantity": 1},
-            ])
+            order1 = create_order(
+                session,
+                juan,
+                [
+                    {"product": "Laptop", "price": 25000, "quantity": 1},
+                    {"product": "Mouse", "price": 350, "quantity": 2},
+                ],
+            )
+            order2 = create_order(
+                session,
+                juan,
+                [
+                    {"product": "Monitor", "price": 8500, "quantity": 1},
+                ],
+            )
+            order3 = create_order(
+                session,
+                maria,
+                [
+                    {"product": "Teclado", "price": 800, "quantity": 1},
+                    {"product": "Webcam", "price": 1200, "quantity": 1},
+                ],
+            )
 
         # === Read ===
         print("\n=== Leyendo datos ===")

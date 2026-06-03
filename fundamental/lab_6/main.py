@@ -12,6 +12,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
 def load_orders_csv(filepath: Path) -> list[dict]:
     """Lee un CSV de órdenes y convierte tipos."""
     if not filepath.exists():
@@ -78,6 +79,7 @@ def calculate_metrics(orders: list[dict]) -> dict:
     logger.info("Métricas calculadas — revenue total: $%.2f", metrics["total_revenue"])
     return metrics
 
+
 def export_to_json(data: dict, filepath: Path) -> None:
     """Exporta datos a JSON."""
     filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -86,8 +88,8 @@ def export_to_json(data: dict, filepath: Path) -> None:
         encoding="utf-8",
     )
     logger.info("Métricas exportadas a %s", filepath)
-    
-    
+
+
 if __name__ == "__main__":
     logger.info("=== Inicio del procesamiento ===")
 

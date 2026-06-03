@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 # === Entidad ===
 
+
 @dataclass
 class Order:
     id: int | None = None
@@ -12,11 +13,11 @@ class Order:
 
     @property
     def total(self) -> float:
-        return sum(
-            i.get("price", 0) * i.get("quantity", 0) for i in self.items
-        )
+        return sum(i.get("price", 0) * i.get("quantity", 0) for i in self.items)
+
 
 # === Strategy: Pricing ===
+
 
 class PricingStrategy(Protocol):
     def calculate(self, order: Order) -> float: ...
@@ -29,25 +30,31 @@ class StandardPricing:
 
 class VipPricing:
     """VIPs obtienen 15% de descuento."""
+
     def calculate(self, order: Order) -> float:
         return order.total * 0.85
 
+
 class WholesalePricing:
     """Mayoreo: 25% de descuento si hay más de 10 items."""
+
     def calculate(self, order: Order) -> float:
         total_qty = sum(i.get("quantity", 0) for i in order.items)
         if total_qty > 10:
             return order.total * 0.75
         return order.total
-    
+
+
 # === Repository Protocol ===
+
 
 class OrderRepository(Protocol):
     def save(self, order: Order) -> Order: ...
     def find_by_id(self, order_id: int) -> Order | None: ...
     def find_by_status(self, status: str) -> list[Order]: ...
-    
+
     # === Adaptador base en memoria ===
+
 
 class InMemoryOrderRepository:
     def __init__(self) -> None:
@@ -66,8 +73,10 @@ class InMemoryOrderRepository:
 
     def find_by_status(self, status: str) -> list[Order]:
         return [o for o in self._orders.values()]
-    
+
+
 # === Decorator: Cached Repository ===
+
 
 class CachedRepository:
     """Decorator que agrega caché a cualquier repositorio."""
@@ -95,8 +104,9 @@ class CachedRepository:
 
     def find_by_status(self, status: str) -> list[Order]:
         return self._inner.find_by_status(status)
-    
+
     # === Adapter: External Provider ===
+
 
 class ExternalPricingApi:
     """Simula una API externa de pricing con interfaz diferente."""
@@ -104,7 +114,8 @@ class ExternalPricingApi:
     def get_price_multiplier(self, customer_tier: str) -> float:
         tiers = {"standard": 1.0, "gold": 0.9, "platinum": 0.8}
         return tiers.get(customer_tier, 1.0)
-    
+
+
 class ExternalPricingAdapter:
     """Adapta la API externa al Protocol PricingStrategy."""
 

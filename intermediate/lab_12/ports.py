@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 # === Entidad de dominio ===
 
+
 @dataclass
 class Order:
     id: int | None = None
@@ -14,11 +15,12 @@ class Order:
     @property
     def total(self) -> float:
         return sum(
-            item.get("price", 0) * item.get("quantity", 0)
-            for item in self.items
+            item.get("price", 0) * item.get("quantity", 0) for item in self.items
         )
-        
+
+
 # === Puertos (interfaces) ===
+
 
 class OrderRepository(Protocol):
     def save(self, order: Order) -> Order: ...

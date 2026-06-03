@@ -8,6 +8,7 @@ from advance.lab_16.domain.events import (
     OrderCreated,
 )
 
+
 @dataclass
 class OrderItem:
     product: str
@@ -23,6 +24,7 @@ class OrderItem:
             raise ValueError(f"Precio debe ser positivo, recibido: {self.price}")
         if self.quantity < 1:
             raise ValueError(f"Cantidad debe ser >= 1, recibido: {self.quantity}")
+
 
 @dataclass
 class Order:

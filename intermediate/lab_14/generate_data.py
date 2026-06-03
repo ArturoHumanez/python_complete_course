@@ -27,14 +27,16 @@ def generate_orders(n: int = 500) -> list[dict]:
         cancel_prob = 0.1 + (total / 100000) + (num_items / 20)
         status = "cancelled" if random.random() < cancel_prob else "completed"
 
-        orders.append({
-            "id": i,
-            "customer": customer,
-            "num_items": num_items,
-            "total": round(total, 2),
-            "has_laptop": any(name == "Laptop" for name, _ in selected),
-            "status": status,
-        })
+        orders.append(
+            {
+                "id": i,
+                "customer": customer,
+                "num_items": num_items,
+                "total": round(total, 2),
+                "has_laptop": any(name == "Laptop" for name, _ in selected),
+                "status": status,
+            }
+        )
 
     return orders
 

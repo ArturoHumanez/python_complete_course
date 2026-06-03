@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 # === Adaptador en memoria ===
 
+
 class InMemoryOrderRepository:
     def __init__(self) -> None:
         self._orders: dict[int, Order] = {}
@@ -25,7 +26,9 @@ class InMemoryOrderRepository:
     def find_by_status(self, status: str) -> list[Order]:
         return [o for o in self._orders.values() if o.status == status]
 
+
 # === Adaptador SQL (simulado con dict pero misma interfaz) ===
+
 
 class SqlOrderRepository:
     """Simula un repositorio SQL — misma interfaz que InMemory."""
@@ -55,12 +58,12 @@ class SqlOrderRepository:
 
     def find_by_status(self, status: str) -> list[Order]:
         return [
-            Order(**data)
-            for data in self._storage.values()
-            if data["status"] == status
+            Order(**data) for data in self._storage.values() if data["status"] == status
         ]
 
+
 # === Adaptador de notificación ===
+
 
 class ConsoleNotifier:
     def send(self, to: str, message: str) -> bool:

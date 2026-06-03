@@ -19,9 +19,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 def register(data: LoginRequest, db: Session = Depends(get_db)):
     """Registra un nuevo usuario."""
     # Verificar que no exista
-    existing = db.scalars(
-        select(User).where(User.email == data.email)
-    ).first()
+    existing = db.scalars(select(User).where(User.email == data.email)).first()
     if existing:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -44,11 +42,13 @@ def register(data: LoginRequest, db: Session = Depends(get_db)):
 @router.post("/login", response_model=TokenResponse)
 def login(data: LoginRequest, db: Session = Depends(get_db)):
     """Inicia sesión y devuelve un token JWT."""
-    user = db.scalars(
-        select(User).where(User.email == data.email)
-    ).first()
+    user = db.scalars(select(User).where(User.email == data.email)).first()
 
-    if not user or not user.password_hash or not verify_password(data.password, user.password_hash):
+    if (
+        not user
+        or not user.password_hash
+        or not verify_password(data.password, user.password_hash)
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciales incorrectas",

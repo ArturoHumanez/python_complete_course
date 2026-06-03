@@ -12,7 +12,6 @@ from intermediate.lab_9.schemas import (
 )
 from intermediate.lab_9.auth import verify_token
 
-
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
@@ -33,9 +32,7 @@ def _order_to_response(order: Order) -> OrderResponse:
         customer=order.user.name,
         status=order.status,
         total=order.total,
-        items=[
-            OrderItemResponse.model_validate(item) for item in order.items
-        ],
+        items=[OrderItemResponse.model_validate(item) for item in order.items],
     )
 
 
@@ -62,7 +59,11 @@ def get_order(order_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=OrderResponse, status_code=201)
-def create_order(data: OrderCreate, db: Session = Depends(get_db), token: dict = Depends(verify_token)):
+def create_order(
+    data: OrderCreate,
+    db: Session = Depends(get_db),
+    token: dict = Depends(verify_token),
+):
     """Crea una nueva orden."""
     user = _get_or_create_user(db, data.customer)
     order = Order(
@@ -88,7 +89,7 @@ def update_order(
     order_id: int,
     data: OrderUpdate,
     db: Session = Depends(get_db),
-    token: dict = Depends(verify_token)
+    token: dict = Depends(verify_token),
 ):
     """Actualiza el status de una orden."""
     order = db.get(Order, order_id)
@@ -101,7 +102,9 @@ def update_order(
 
 
 @router.delete("/{order_id}", status_code=204)
-def delete_order(order_id: int, db: Session = Depends(get_db), token: dict = Depends(verify_token)):
+def delete_order(
+    order_id: int, db: Session = Depends(get_db), token: dict = Depends(verify_token)
+):
     """Elimina una orden."""
     order = db.get(Order, order_id)
     if not order:

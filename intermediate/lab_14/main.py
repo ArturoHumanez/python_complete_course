@@ -52,7 +52,8 @@ def train_model(df: pd.DataFrame) -> tuple:
     )
     logger.info(
         "Train: %d muestras, Test: %d muestras",
-        len(X_train), len(X_test),
+        len(X_train),
+        len(X_test),
     )
 
     # Entrenar
@@ -64,7 +65,9 @@ def train_model(df: pd.DataFrame) -> tuple:
     accuracy = accuracy_score(y_test, y_pred)
     logger.info("Accuracy: %.2f%%", accuracy * 100)
     print("\nReporte de clasificación:")
-    print(classification_report(y_test, y_pred, target_names=["cancelled", "completed"]))
+    print(
+        classification_report(y_test, y_pred, target_names=["cancelled", "completed"])
+    )
 
     # Importancia de features
     print("Importancia de features:")

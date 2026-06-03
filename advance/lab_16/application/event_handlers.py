@@ -9,6 +9,7 @@ from advance.lab_16.domain.events import (
 
 logger = logging.getLogger(__name__)
 
+
 class EventBus:
     """Despacha eventos a sus manejadores."""
 
@@ -23,28 +24,33 @@ class EventBus:
             handlers = self._handlers.get(type(event), [])
             for handler in handlers:
                 handler(event)
-                
-    
+
+
 # === Handlers concretos ===
+
 
 def on_order_created(event: OrderCreated) -> None:
     logger.info(
         "Evento OrderCreated: orden #%d de %s por $%.2f",
-        event.order_id, event.customer, event.total,
+        event.order_id,
+        event.customer,
+        event.total,
     )
 
 
 def on_order_completed(event: OrderCompleted) -> None:
     logger.info(
         "Evento OrderCompleted: orden #%d de %s",
-        event.order_id, event.customer,
+        event.order_id,
+        event.customer,
     )
 
 
 def on_order_cancelled(event: OrderCancelled) -> None:
     logger.info(
         "Evento OrderCancelled: orden #%d de %s",
-        event.order_id, event.customer,
+        event.order_id,
+        event.customer,
     )
 
 
