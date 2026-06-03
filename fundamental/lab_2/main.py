@@ -56,7 +56,7 @@ def summarize_by_customer(orders: list[dict]) -> dict[str, float]:
 def process_order(order: dict) -> str:
     """Clasifica una orden usando pattern matching."""
     match order:
-        case {"status": "completed", "items": [_, _, *rest]}:
+        case {"status": "completed", "items": [_, _, *_]}:
             return f"Orden {order['id']}: completada con múltiples productos"
         case {"status": "completed", "items": [single]}:
             return f"Orden {order['id']}: completada — solo '{single['product']}'"

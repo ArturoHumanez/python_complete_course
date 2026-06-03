@@ -6,6 +6,7 @@ from intermediate.lab_8.models import Order, OrderItem, User
 from intermediate.lab_9.database import get_db
 from intermediate.lab_9.schemas import (
     OrderCreate,
+    OrderItemResponse,
     OrderResponse,
     OrderUpdate,
 )
@@ -27,13 +28,14 @@ def _get_or_create_user(db: Session, customer: str) -> User:
 
 
 def _order_to_response(order: Order) -> OrderResponse:
-    """Convierte un Order de SQLAlchemy a OrderResponse de Pydantic."""
     return OrderResponse(
         id=order.id,
         customer=order.user.name,
         status=order.status,
         total=order.total,
-        items=order.items,
+        items=[
+            OrderItemResponse.model_validate(item) for item in order.items
+        ],
     )
 
 

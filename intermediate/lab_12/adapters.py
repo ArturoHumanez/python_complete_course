@@ -1,6 +1,6 @@
 import logging
 
-from intermediate.lab_12.ports import Order, NotificationPort, OrderRepository
+from intermediate.lab_12.ports import Order
 
 logger = logging.getLogger(__name__)
 

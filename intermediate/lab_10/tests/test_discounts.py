@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import MagicMock, patch
 from intermediate.lab_10.discounts import apply_discount
 
 

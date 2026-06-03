@@ -87,7 +87,7 @@ if __name__ == "__main__":
     print(f"  Speedup async vs sync:   {t_sync / t_async:.1f}x")
 
     # === CPU-bound: comparar sync vs multiprocessing ===
-    print(f"\n=== CPU-bound: Cálculos pesados ===\n")
+    print("\n=== CPU-bound: Cálculos pesados ===\n")
 
     numbers = [5_000_000, 10_000_000, 8_000_000, 12_000_000]
 
