@@ -40,3 +40,6 @@ jobs:
 
       - name: Coverage report
         run: poetry run pytest intermediate/ advance/ --cov=intermediate --cov=advance --cov-report=term-missing --ignore=intermediate/lab_8/alembic
+
+      - name: Audit dependencies
+        run: poetry run pip-audit
