@@ -27,10 +27,7 @@ def verify_settings() -> None:
 
     # Validar que no sea el default en producción
     if not settings.debug and settings.secret_key == "dev-secret-change-me":
-        logger.warning(
-            "SECRET_KEY tiene el valor default — "
-            "NO usar en producción"
-        )
+        logger.warning("SECRET_KEY tiene el valor default — " "NO usar en producción")
 
 
 if __name__ == "__main__":
