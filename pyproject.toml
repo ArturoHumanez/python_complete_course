@@ -59,6 +59,8 @@ ignore_missing_imports = true
 exclude = [
     "fundamental/",
     "intermediate/",
+    "advance/lab_19/orders_pb2",
+
 ]
 
 [dependency-groups]

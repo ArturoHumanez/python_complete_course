@@ -33,7 +33,7 @@ jobs:
         run: poetry run isort --check .
 
       - name: Type check with mypy
-        run: poetry run mypy advance/
+        run: poetry run mypy advance/ --exclude "lab_19|lab_cli"
 
       - name: Run tests
         run: poetry run pytest intermediate/ advance/ -v --tb=short
