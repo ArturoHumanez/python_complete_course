@@ -97,9 +97,7 @@ def serve():
         format="%(asctime)s [%(levelname)s] %(message)s",
     )
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    orders_pb2_grpc.add_OrderServiceServicer_to_server(
-        OrderServiceServicer(), server
-    )
+    orders_pb2_grpc.add_OrderServiceServicer_to_server(OrderServiceServicer(), server)
     server.add_insecure_port("[::]:50051")
     server.start()
     logger.info("Servidor gRPC corriendo en puerto 50051")

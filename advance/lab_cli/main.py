@@ -11,7 +11,9 @@ BASE_URL = "http://localhost:8000"
 
 @app.command()
 def list_orders(
-    status: str = typer.Option(None, help="Filtrar por status: pending, completed, cancelled"),
+    status: str = typer.Option(
+        None, help="Filtrar por status: pending, completed, cancelled"
+    ),
 ):
     """Lista todas las órdenes."""
     params = {"status": status} if status else {}
@@ -61,7 +63,7 @@ def get_order(order_id: int = typer.Argument(help="ID de la orden")):
         console.print(f"  Cliente: {order['customer']}")
         console.print(f"  Status:  {order['status']}")
         console.print(f"  Total:   ${order['total']:,.2f}")
-        console.print(f"  Items:")
+        console.print("  Items:")
         for item in order["items"]:
             console.print(
                 f"    - {item['product']} x{item['quantity']} = ${item['subtotal']:,.2f}"
@@ -79,7 +81,9 @@ def create_order(
     """Crea una nueva orden de forma interactiva."""
     items = []
     while True:
-        console.print(f"\n[cyan]Item #{len(items) + 1}[/cyan] (deja producto vacío para terminar)")
+        console.print(
+            f"\n[cyan]Item #{len(items) + 1}[/cyan] (deja producto vacío para terminar)"
+        )
         product = typer.prompt("  Producto", default="")
         if not product:
             break
@@ -106,7 +110,9 @@ def create_order(
         elif response.status_code == 401:
             console.print("[red]Token inválido o expirado[/red]")
         else:
-            console.print(f"[red]Error: {response.json().get('detail', response.text)}[/red]")
+            console.print(
+                f"[red]Error: {response.json().get('detail', response.text)}[/red]"
+            )
 
     except httpx.RequestError as e:
         console.print(f"[red]Error de conexión: {e}[/red]")

@@ -19,7 +19,9 @@ def run():
     print("=== Listar todas las órdenes ===")
     response = stub.ListOrders(orders_pb2.ListOrdersRequest())
     for order in response.orders:
-        print(f"  Orden #{order.id}: {order.customer} — ${order.total:,.2f} ({order.status})")
+        print(
+            f"  Orden #{order.id}: {order.customer} — ${order.total:,.2f} ({order.status})"
+        )
 
     # === Obtener una orden ===
     print("\n=== Obtener orden #1 ===")
@@ -47,7 +49,9 @@ def run():
     print("\n=== Listar después de crear ===")
     response = stub.ListOrders(orders_pb2.ListOrdersRequest())
     for order in response.orders:
-        print(f"  Orden #{order.id}: {order.customer} — ${order.total:,.2f} ({order.status})")
+        print(
+            f"  Orden #{order.id}: {order.customer} — ${order.total:,.2f} ({order.status})"
+        )
 
     # === Filtrar por status ===
     print("\n=== Solo pendientes ===")
